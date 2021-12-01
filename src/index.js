@@ -3,10 +3,11 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { Kandy } from './components/KandyKorner';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Kandy />
   </React.StrictMode>,
   document.getElementById('root')
 );
