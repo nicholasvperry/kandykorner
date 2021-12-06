@@ -2,12 +2,14 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { EmployeeContext } from "./EmployeeProvider";
 import { LocationContext } from "../Locations/LocationProvider";
+import Swal from 'sweetalert2';
+
 
 export const EmployeeForm = () => {
     const {addEmployee} = useContext(EmployeeContext)
     //pull getLocations fetch call and store state in "location"
     const { locations, getLocations} = useContext(LocationContext)
-    
+    const navigate = useNavigate()
 
     //employee is the state
     //setEmployee is how we change the value of the object
@@ -15,13 +17,13 @@ export const EmployeeForm = () => {
     const [employee, setEmployee] = useState({    
         name: "",
         locationId: 0,
-        manager: true,
-        fullTime: true,
+        manager: false,
+        fullTime: false,
         hourlyRate: 0
       });
 
-    const navigate = useNavigate()
-
+    
+    //get locations for our form
     useEffect(() => {
         getLocations()
     }, [])
@@ -48,27 +50,63 @@ export const EmployeeForm = () => {
         event.preventDefault() //Prevents the browser from submitting the form
         
         //Pull foreign keys from form to save in json
+        //parseInt turns string into rounded number
         const locationId = parseInt(employee.locationId)
         employee.locationId = locationId
 
-        // if (employeeName === "") {
-        //   window.alert("Please add your name")
-        // } else {
-        //   //invoke addEmployee passing employee as an argument.
-        //   //once complete, change the url and display the employee list
-          addEmployee(employee)
-          .then(() => navigate("/employees"))
-        // }
+        //parseFloat turns string into non rounded number
+        const hourlyRate = parseFloat(employee.hourlyRate)
+        employee.hourlyRate = hourlyRate
+
+        //Boolean turns string into boolean
+        const fullTime = Boolean(employee.fullTime)
+        employee.fullTime = fullTime
+
+        const manager = Boolean(employee.manager)
+        employee.manager = manager
+
+        if (employee.name === "") {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Please add employee name!',
+            position: `center`
+          })
+        } else {
+        //invoke addEmployee passing employee as an argument.
+        //once complete, change the url and display the employee list
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'center',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          })         
+           
+          Toast.fire({
+            icon: 'success',
+            title: 'You have saved your new employee!'
+          })
+
+        addEmployee(employee)
+        .then(() =>navigate("/employees"))
+        }
       }
+      
 
     return (
+        
         <form className="employeeForm">
             <h2 className="employeeFormTitle">New Employee</h2>
-          <fieldset>
-              <div className="form-group">
-                  <label htmlFor="name">Employee name:</label>
-                  <input type="text" id="name" onChange={handleControlledInputChange} required autoFocus className="form-control" placeholder="Employee name" value={employee.name}/>
-              </div>
+            <fieldset>
+                <div className="form-group">
+                <label htmlFor="name">Employee name:</label>
+                <input type="text" id="name" onChange={handleControlledInputChange} required autoFocus className="form-control" placeholder="Employee name" />
+                </div>
             </fieldset> 
 
             <fieldset>
@@ -83,9 +121,15 @@ export const EmployeeForm = () => {
                       ))}
                   </select>
               </div>
-          </fieldset>
+            </fieldset>
 
-                        
+            <fieldset>
+                <div className="form-group">
+                    <label htmlFor="rate">Employee rate: $</label>
+                    <input type="number" id="hourlyRate" onChange={handleControlledInputChange} required  className="form-control" />
+                </div>
+            </fieldset>
+
           <fieldset>
               <div className="form-group">
                   <label htmlFor="manager">Manager</label>
@@ -93,7 +137,14 @@ export const EmployeeForm = () => {
               </div>
             </fieldset> 
 
-            <fieldset>
+          <fieldset>
+              <div className="form-group">
+                  <label htmlFor="manager">Full Time</label>
+                  <input type="checkbox" id="fullTime" onChange={handleControlledInputChange} required  className="form-control" placeholder="Full Time" value={employee.manager}/>
+              </div>
+            </fieldset> 
+
+            {/* <fieldset>
               <div className="form-group">
                   <label htmlFor="position">Employee Position: </label>
                   <select onChange={handleControlledInputChange} defaultValue={employee.fullTime} name="fullTime" id="fullTime" className="form-control" >
@@ -102,14 +153,9 @@ export const EmployeeForm = () => {
                       <option value="false">Part Time</option>
                   </select>
               </div>
-          </fieldset>
+          </fieldset> */}
 
-            <fieldset>
-              <div className="form-group">
-                  <label htmlFor="rate">Employee rate: $</label>
-                  <input value={employee.hourlyRate} type="number" id="rate" onChange={handleControlledInputChange} required  className="form-control" />
-              </div>
-            </fieldset> 
+            
 
             
 

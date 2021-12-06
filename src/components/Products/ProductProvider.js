@@ -11,13 +11,13 @@ export const ProductProvider = (props) => {
 
     //we need to expand this fetch to allow for the product type
     const getProducts = () => {
-        return fetch("http://localhost:8088/products?_expand=types")
+        return fetch("http://localhost:8088/products?_expand=type")
         .then(res => res.json())
         .then(setProducts)
     }
 //setProducts puts the data from the api into the array of animals
     const addProduct = productObj => {
-        return fetch("http://localhost:8088/product", {
+        return fetch("http://localhost:8088/products", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -33,6 +33,8 @@ export const ProductProvider = (props) => {
         and the `addproduct` function as keys. This
         allows any child elements to access them.
     */
+
+        
     return (
         <ProductContext.Provider value={{
             products, getProducts, addProduct

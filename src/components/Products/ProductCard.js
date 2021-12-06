@@ -11,7 +11,7 @@ export const ProductCard = ({product}) =>{
     <section className={`product ${productClassName}`} >
         <h3 className="productName">{product.name}</h3>
         <div className="productPrice">Price: ${product.price}</div>
-        <div className="productType">Type: {product.types.name}</div>
+        <div className="productType">Type: {product.type.name}</div>
         
     </section>
 )}

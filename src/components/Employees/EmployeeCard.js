@@ -20,7 +20,7 @@ return (
     
     <section className="employee">
         <h3 className="employeeName">Name: {employee.name}</h3>
-        <div className="employeeLocation">Location: {employee.locations.name}</div>
+        <div className="employeeLocation">Location: {employee.location.name}</div>
         <div className="employeePosition">Position: {isManager}</div>
         <div className="employentType">Employement Type: {isFulltime}</div>
         <div className="employeePayRate">Hourly Rate: ${employee.hourlyRate}</div>
