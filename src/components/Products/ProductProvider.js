@@ -27,6 +27,28 @@ export const ProductProvider = (props) => {
         .then(getProducts)
     }
 
+    const getProductById = (id) => {
+        return fetch(`http://localhost:8088/products/${id}?_expand=type`)
+            .then(res => res.json())
+    }
+
+    const updateProduct = product => {
+        return fetch(`http://localhost:8088/products/${product.id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(product)
+        })
+          .then(getProducts)
+      }
+
+      const deleteProduct = productId => {
+        return fetch(`http://localhost:8088/products/${productId}`, {
+            method: "DELETE"
+        })
+            .then(getProducts)
+    }
         /*
         You return a context provider which has the
         `products` state, `getproducts` function,
@@ -37,7 +59,7 @@ export const ProductProvider = (props) => {
         
     return (
         <ProductContext.Provider value={{
-            products, getProducts, addProduct
+            products, getProducts, addProduct, updateProduct, getProductById, deleteProduct
         }}>
             {props.children}
         </ProductContext.Provider>

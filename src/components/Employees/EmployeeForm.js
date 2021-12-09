@@ -94,8 +94,7 @@ export const EmployeeForm = () => {
 
         addEmployee(employee)
         .then(() =>navigate("/employees"))
-        }
-      }
+    }}
       
 
     return (
@@ -140,7 +139,7 @@ export const EmployeeForm = () => {
           <fieldset>
               <div className="form-group">
                   <label htmlFor="manager">Full Time</label>
-                  <input type="checkbox" id="fullTime" onChange={handleControlledInputChange} required  className="form-control" placeholder="Full Time" value={employee.manager}/>
+                  <input type="checkbox" id="fullTime" onChange={handleControlledInputChange} required  className="form-control" placeholder="Full Time" value={employee.fullTime}/>
               </div>
             </fieldset> 
 

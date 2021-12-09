@@ -1,11 +1,15 @@
 import React from "react"
+import { Link } from "react-router-dom"
 import "./Location.css"
 
-export const LocationCard = ({location}) => (
+export const LocationCard = ({location, employeeCount}) => (
     <section className="location">
-        <h3 className="locationName">{location.name}</h3>
+        
+        <h3 className="locationName">
+            <Link to={`/locations/detail/${location.id}`}>
+        { location.name }
+      </Link></h3>
         <div className="locationAddress">{location.address}</div>
-        <div className="locationFtg">{location.sqrFtg}</div>
-        <div className="handicap">{location.handicap}</div>
+       
     </section>
 )

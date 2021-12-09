@@ -10,7 +10,7 @@ export const LocationProvider = (props) => {
     const [locations, setLocations] = useState([])
 
     const getLocations = () => {
-        return fetch("http://localhost:8088/locations")
+        return fetch("http://localhost:8088/locations?_embed=employees")
         .then(res => res.json())
         .then(setLocations)
     }
@@ -27,6 +27,23 @@ export const LocationProvider = (props) => {
         .then(getLocations)
     }
 
+    //gets location and includes id. Used for editing locations
+    const getLocationById = (id) => {
+        return fetch(`http://localhost:8088/locations/${id}?_embed=employees&_embed=animals`)
+            .then(res => res.json())
+    }
+
+    //update location fetch call
+    const updateLocation = location => {
+        return fetch(`http://localhost:8088/locations/${location.id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(location)
+        })
+          .then(getLocations)
+      }
     /*
         You return a context provider which has the
         `locations` state, `getlocations` function,
@@ -35,7 +52,7 @@ export const LocationProvider = (props) => {
     */
     return (
         <LocationContext.Provider value={{
-            locations, getLocations, addLocation
+            locations, getLocations, addLocation, getLocationById, updateLocation
         }}>
             {props.children}
         </LocationContext.Provider>

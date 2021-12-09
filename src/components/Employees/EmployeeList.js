@@ -31,8 +31,12 @@ export const EmployeeList = () => {
         {
           employees.map(employeeObj => {
             return <EmployeeCard key={employeeObj.id} employee={employeeObj} />
+
+            
           })
         }
+       
+    
       </div>
         </>
     )

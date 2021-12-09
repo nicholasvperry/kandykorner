@@ -4,12 +4,14 @@ import { EmployeeProvider } from "./Employees/EmployeeProvider"
 import { Home } from "./Home"
 import {LocationList} from "./Locations/LocationList"
 import {LocationProvider} from "./Locations/LocationProvider"
+import { LocationForm } from "./Locations/LocationForm"
 import { ProductList } from "./Products/ProductList"
 import { ProductProvider } from "./Products/ProductProvider"
 import { EmployeeList } from "./Employees/EmployeeList"
 import { EmployeeForm } from "./Employees/EmployeeForm"
 import { ProductForm } from "./Products/ProductForm"
 import { TypeProvider } from "./Products/TypesProvider"
+import { LocationDetail } from "./Locations/LocationDetail"
 
 export const ApplicationViews = () => {
     return (
@@ -21,14 +23,33 @@ export const ApplicationViews = () => {
             {/* Render the home page when http://localhost:3000/ */}
             <Route exact path="/" element={<Home />} />
 
-            {/* Render the location list when http://localhost:3000/locations */}
+            {/* Location list render when http://localhost:3000/locations */}
             <Route exact path="locations/*" element={ <LocationList />} />
+
+            {/* location details card */}
+            <Route path="locations/detail/:locationId/*" element={<LocationDetail />} />
+
+            {/* new location form */}
+            <Route path="locations/create/*" element={<LocationForm />} />
+
+            {/* editLocation form */}
+            <Route path="locations/edit/:locationId/*" element={<LocationForm />} />
+
+            {/* location details card */}
+            <Route path="locations/detail/:locationId/*" element={<LocationDetail />} />
+
             
-            {/* Render the product list when http://localhost:3000/products */}
+            
+            {/* Product list render when http://localhost:3000/products */}
             <Route exact path="products/*" element={ <ProductList />} />
 
             {/* Render the product form when http://localhost:3000/product/create */}
             <Route path="products/create/*" element={<ProductForm />} />
+            
+            {/* Udate product */}
+            <Route path="products/edit/:productId/*" element={<ProductForm />} />
+
+
                 
             {/* Render the employee list when http://localhost:3000/employees */}
             <Route exact path="employees/*" element={< EmployeeList />} />
